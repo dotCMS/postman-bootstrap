@@ -11,6 +11,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PostmanBootstrapAPI {
 
+    public static final PostmanBootstrapAPI INSTANCE = new PostmanBootstrapAPI();
+    private PostmanBootstrapAPI() {
+    }
+
     private final Map<String, PostmanBootstrap> postmanBootstrapMap = new ConcurrentHashMap<>();
 
     public void registerPostmanBootstrap(final String name, final PostmanBootstrap postmanBootstrap) {

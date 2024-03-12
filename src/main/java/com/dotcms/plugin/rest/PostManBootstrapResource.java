@@ -1,7 +1,9 @@
 package com.dotcms.plugin.rest;
 
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +20,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+
+import com.dotcms.config.DotInitializationService;
+import com.dotcms.plugin.rest.bootstraps.PostmanBootstrapDotInitializer;
 import com.dotcms.rest.InitDataObject;
 import com.dotcms.rest.WebResource;
 import com.dotcms.rest.annotation.NoCache;
@@ -25,6 +30,7 @@ import com.dotmarketing.business.DotStateException;
 import com.dotmarketing.exception.DotDataException;
 import com.dotmarketing.exception.DotSecurityException;
 import com.liferay.portal.model.User;
+import org.apache.commons.lang.mutable.MutableBoolean;
 import org.glassfish.jersey.server.JSONP;
 
 /**
@@ -34,11 +40,19 @@ import org.glassfish.jersey.server.JSONP;
 @Path("/postman")
 public class PostManBootstrapResource {
 
-	private final PostmanBootstrapAPI postmanBootstrapAPI = new PostmanBootstrapAPI();
+	private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
+	private final PostmanBootstrapAPI postmanBootstrapAPI = PostmanBootstrapAPI.INSTANCE;
     private final WebResource webResource = new WebResource();
 
+	public PostManBootstrapResource() {
+
+		if (!INITIALIZED.getAndSet(true)) {
+
+			new PostmanBootstrapDotInitializer().init();
+		}
+	}
 	@POST
-	public Response doPost(@Context HttpServletRequest request, @PathParam("params") String params) throws URISyntaxException {
+	public Response doPost(@Context HttpServletRequest request) throws URISyntaxException {
 		InitDataObject auth = webResource.init(true, request, false);
 		User user = auth.getUser();
 		String username = (user != null) ? user.getFullName() : " unknown ";
@@ -61,11 +75,10 @@ public class PostManBootstrapResource {
 
 		final InitDataObject auth = webResource.init(true, request, false);
 		final User user = auth.getUser();
-
 		final String [] namesArray = names.split(",");
 		return Response.ok(
 				this.postmanBootstrapAPI.runPostmanBootstraps(Arrays.asList(namesArray), request, response, user, Collections.emptyMap())
-		);
+		).build();
 	}
 
 }
