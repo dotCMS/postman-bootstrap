@@ -6,11 +6,19 @@ sourceCompatibility = '1.8'
 version = '0.2'
 
 repositories {
+    mavenLocal()
     maven { url "http://repo.dotcms.com/artifactory/libs-release" }
 }
 
 dependencies {
-    compile('com.dotcms:dotcms:22.05') { transitive = true }
+    compile(group: 'com.dotcms', name: 'dotcms-core', version: '1.0.0-SNAPSHOT') {
+        exclude group: 'com.dotcms.core.plugins', module: 'com.dotcms.tika-api'
+        exclude group: 'com.ettrema'
+        exclude group: 'org.apache.xmlgraphics'
+        exclude group: 'com.fasterxml.jackson.dataformat', module: 'jackson-dataformat-cbor'
+        exclude group: 'com.fasterxml.jackson.dataformat', module: 'jackson-dataformat-smile'
+        exclude group: 'org.javassist'
+    }
 }
 
 import java.util.jar.*

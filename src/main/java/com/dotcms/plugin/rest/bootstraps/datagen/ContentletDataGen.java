@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static com.dotmarketing.business.ModDateTestUtil.updateContentletVersionDate;
+import static com.dotcms.plugin.rest.bootstraps.datagen.ModDateTestUtil.updateContentletVersionDate;
 
 /**
  * Class used to create {@link Contentlet} objects for test purposes
@@ -408,7 +408,7 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
                 APILocator.getContentletAPI().destroy(contentlet, APILocator.systemUser(), false);
             } catch (Exception e) {
                 if (failSilently) {
-                    Logger.error(ContentTypeDataGen.class, "Unable to destroy Contentlet.", e);
+                    Logger.error(ContentletDataGen.class, "Unable to destroy Contentlet.", e);
                 } else {
                     throw new RuntimeException("Unable to destroy Contentlete.", e);
                 }
@@ -428,7 +428,7 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
                 APILocator.getContentletAPI().unpublish(contentlet, APILocator.systemUser(), false);
             } catch (Exception e) {
                 if (failSilently) {
-                    Logger.error(ContentTypeDataGen.class, "Unable to unpublish Contentlet.", e);
+                    Logger.error(ContentletDataGen.class, "Unable to unpublish Contentlet.", e);
                 } else {
                     throw new RuntimeException("Unable to unpublish Contentlete.", e);
                 }
