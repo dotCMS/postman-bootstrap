@@ -294,7 +294,6 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
      * instance
      * @return Contentlet instance created from existing one
      */
-    @WrapInTransaction
     public static Contentlet checkout(Contentlet contentletBase) {
         try {
             return APILocator.getContentletAPI().checkout(
@@ -308,12 +307,10 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
         return user == null ? APILocator.systemUser() : user;
     }
 
-    @WrapInTransaction
     public static Contentlet checkin(Contentlet contentlet) {
         return checkin(contentlet, IndexPolicy.FORCE);
     }
 
-    @WrapInTransaction
     public static Contentlet checkin(Contentlet contentlet, IndexPolicy policy) {
         try{
             contentlet.setIndexPolicy(policy);
@@ -325,12 +322,10 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
         }
     }
 
-    @WrapInTransaction
     public static Contentlet checkin(final Contentlet contentlet, final List<Category> categories) {
         return  checkin(contentlet, categories, APILocator.systemUser());
     }
 
-    @WrapInTransaction
     private static Contentlet checkin(final Contentlet contentlet, final List<Category> categories, final User user) {
         try{
             contentlet.setIndexPolicy(IndexPolicy.FORCE);
@@ -342,7 +337,6 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
         }
     }
 
-    @WrapInTransaction
     public static Contentlet publish(Contentlet contentlet) {
         try {
             contentlet.setIndexPolicy(IndexPolicy.WAIT_FOR);
@@ -360,7 +354,6 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
      * Archives a given {@link Contentlet} instance
      * @param contentlet to be archived
      */
-    @WrapInTransaction
     public static void archive(Contentlet contentlet) {
         try{
             contentletAPI.archive(contentlet, APILocator.systemUser(), false);
@@ -374,7 +367,6 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
      * Deletes a given {@link Contentlet} instance
      * @param contentlet to be deleted
      */
-    @WrapInTransaction
     public static void delete(Contentlet contentlet) {
         try{
             contentletAPI.delete(contentlet, APILocator.systemUser(), false);
@@ -387,7 +379,6 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
      * Archives and deletes a given {@link Contentlet} instance
      * @param contentlet to be removed
      */
-    @WrapInTransaction
     public static void remove(Contentlet contentlet) {
         try{
             destroy(contentlet, true);
@@ -400,7 +391,6 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
         destroy(contentlet, true);
     }
 
-    @WrapInTransaction
     public static void destroy(final Contentlet contentlet, final Boolean failSilently) {
 
         if (null != contentlet) {
@@ -420,7 +410,6 @@ public class ContentletDataGen extends AbstractDataGen<Contentlet> {
        unpublish(contentlet, true);
     }
 
-    @WrapInTransaction
     public static void unpublish(final Contentlet contentlet, final Boolean failSilently) {
 
         if (null != contentlet) {

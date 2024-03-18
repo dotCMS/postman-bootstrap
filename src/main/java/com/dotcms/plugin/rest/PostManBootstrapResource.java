@@ -69,9 +69,9 @@ public class PostManBootstrapResource {
 	@NoCache
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON, "application/javascript"})
-	public Response runBootstraps(@Context final HttpServletRequest request, @Context final HttpServletResponse response,
-							 @PathParam("names") final String names) throws DotStateException,
-			DotDataException, DotSecurityException {
+	public Response runBootstraps(@Context final HttpServletRequest request,
+								  @Context final HttpServletResponse response,
+							 @PathParam("names") final String names) throws DotStateException {
 
 		final InitDataObject auth = webResource.init(true, request, false);
 		final User user = auth.getUser();

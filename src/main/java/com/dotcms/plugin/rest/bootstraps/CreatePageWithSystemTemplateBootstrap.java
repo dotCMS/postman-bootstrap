@@ -15,6 +15,11 @@ import java.util.Map;
 
 public class CreatePageWithSystemTemplateBootstrap implements PostmanBootstrap {
     @Override
+    public String getName() {
+        return "create-page-with-system-template-bootstrap";
+    }
+
+    @Override
     public Object run(final HttpServletRequest request,
                       final HttpServletResponse response,
                       final User user,
